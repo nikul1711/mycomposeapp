@@ -1,5 +1,6 @@
 package com.example.mycomposeapp
 
+import android.content.ClipData
 import android.os.Bundle
 import android.widget.Toast
 import androidx.activity.ComponentActivity
@@ -16,6 +17,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -41,7 +43,7 @@ class MainActivity : ComponentActivity() {
         setContent {
             MyComposeAppTheme {
 //                MainScrenn()
-                ModifierDemo()
+//                ModifierDemo()
             }
         }
     }
@@ -51,9 +53,29 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun GreetingPreview() {
     MyComposeAppTheme {
-        ModifierDemo()
+        MainScreenForNavigation()
     }
 }
+
+@Composable
+fun MainScreenForNavigation() {
+    val list = List(20) { "Hello Android $it" }
+    LazyColumn {
+        item {
+            Text(
+                text = "Hello World", modifier = Modifier
+                    .padding(16.dp)
+                    .fillMaxSize()
+            )
+        }
+    }
+}
+
+@Composable
+fun SecondScreenForNavigation() {
+
+}
+
 
 @Composable
 fun MainScreenBox() {
@@ -89,9 +111,11 @@ fun MainScreenBox() {
 
 @Composable
 fun ModifierDemo() {
-    Column(modifier = Modifier
-        .fillMaxSize()
-        .verticalScroll(rememberScrollState())) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+    ) {
         val boxModifier = Modifier
             .weight(1f)
             .padding(10.dp)
