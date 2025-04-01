@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -54,15 +55,25 @@ fun GreetingPreview() {
 @Composable
 fun MainScreenForNavigation() {
     val list = List(20) { "Hello Android $it" }
-    LazyColumn {
+    LazyColumn() {
         item {
             Text(
                 text = "Hello World", modifier = Modifier
                     .padding(16.dp)
-                    .fillMaxSize()
+                    .fillMaxWidth()
             )
         }
+        items(list) { item ->
+            Items(item = item.toString())
+        }
     }
+}
+
+@Composable
+fun Items(item: String) {
+    Text(text = item, modifier = Modifier
+        .padding(4.dp)
+        .fillMaxWidth())
 }
 
 @Composable
@@ -72,7 +83,7 @@ fun SecondScreenForNavigation() {
 
 @Composable
 fun ThirdScreenForNavigation() {
-    
+
 }
 
 @Composable
