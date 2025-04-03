@@ -1,6 +1,5 @@
 package com.example.mycomposeapp
 
-import android.R.attr.type
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -12,9 +11,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.example.mycomposeapp.theme.MyComposeAppTheme
+import com.example.mycomposeapp.ui.screens.AnimationScreen
 import com.example.mycomposeapp.ui.screens.DetailsScreen
 import com.example.mycomposeapp.ui.screens.MainScreen
-import com.example.mycomposeapp.theme.MyComposeAppTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -51,6 +51,15 @@ fun MyApp() {
             val data = it.arguments?.getString("data")
 //            val data=null
             DetailsScreen(navController, data)
+        }
+        composable("animation?data={data}", arguments = listOf(navArgument("data") {
+            type = NavType.StringType
+            defaultValue = null
+            nullable = true
+        })) {
+            val data = it.arguments?.getString("data")
+//            val data=null
+            AnimationScreen(navController, data)
         }
     }
 }

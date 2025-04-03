@@ -36,10 +36,13 @@ fun MainScreen(navController: NavController) {
             LazyItemHeader("Hello Android Developer")
         }
         items(listColumns) { item ->
-            LazyListItemData(item, onClick = {
-                // Call navigate on the NavController when item is clicked
-                navController.navigate("details?data=$it")
-            })
+            LazyListItemData(
+                item, onClick = {
+                    // Call navigate on the NavController when item is clicked
+                    navController.navigate("details?data=$it")
+                },
+                closeBtnClicked = { navController.navigate("animation?data=$it") }
+            )
         }
     }
 }
@@ -59,7 +62,11 @@ fun LazyItemHeader(header: String) {
 }
 
 @Composable
-fun LazyListItemData(item: String, onClick: (data: String) -> Unit) {
+fun LazyListItemData(
+    item: String,
+    onClick: (data: String) -> Unit,
+    closeBtnClicked: (data: String) -> Unit
+) {
     Box(
         modifier = Modifier
             .padding(4.dp)
@@ -77,6 +84,7 @@ fun LazyListItemData(item: String, onClick: (data: String) -> Unit) {
                 .height(16.dp)
                 .width(16.dp)
                 .align(Alignment.TopEnd)
+                .clickable { closeBtnClicked(item) }
         )
         Text(
             text = item,
