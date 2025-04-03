@@ -7,6 +7,7 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -37,6 +38,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
 import com.example.mycomposeapp.ui.theme.MyComposeAppTheme
 
 class MainActivity : ComponentActivity() {
@@ -45,22 +50,33 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             MyComposeAppTheme {
-                MainScreenForNavigation()
+                val navController = rememberNavController()
+                NavHost(navController = navController, startDestination = "/main") {
+                    composable("/main") {
+                        MainScreenForNavigation(navController)
+                    }
+                    composable("/second") {
+                        SecondScreenForNavigation(navController)
+                    }
+
+                    // define other screens here if needed in the future
+                }
             }
         }
     }
 }
 
+
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
     MyComposeAppTheme {
-        MainScreenForNavigation()
+        MainScreenForNavigation(rememberNavController())
     }
 }
 
 @Composable
-fun MainScreenForNavigation() {
+fun MainScreenForNavigation(navController: NavHostController) {
     val listSize = 5;
     val listColumns = List(listSize) { "Hello Android $it" }
     val listRow = List(listSize) { "Hello Nick $it" }
@@ -69,7 +85,9 @@ fun MainScreenForNavigation() {
         LazyItemHeader("Android Developer")
         LazyRow(modifier = Modifier.height(110.dp)) {
             items(list3) { item ->
-                LazyListItemData(item)
+                LazyListItemData(item, onClick = {
+                    navController.navigate("/second")
+                })
             }
         }
         LazyColumn() {
@@ -77,13 +95,17 @@ fun MainScreenForNavigation() {
                 LazyItemHeader("Hello Android Developer")
             }
             items(listColumns) { item ->
-                LazyListItemData(item)
+                LazyListItemData(item, onClick = {
+                    navController.navigate("/second")
+                })
             }
             item {
                 LazyItemHeader("User Developer")
             }
             items(listRow) { item ->
-                LazyListItemData(item)
+                LazyListItemData(item, onClick = {
+                    navController.navigate("/second")
+                })
             }
         }
     }
@@ -104,7 +126,7 @@ fun LazyItemHeader(header: String) {
 }
 
 @Composable
-fun LazyListItemData(item: String) {
+fun LazyListItemData(item: String, onClick: (data: String) -> Unit) {
     Box(
         modifier = Modifier
             .padding(4.dp)
@@ -113,6 +135,7 @@ fun LazyListItemData(item: String) {
             .height(80.dp)
             .padding(12.dp)
             .fillMaxWidth()
+            .clickable { onClick(item) }
     ) {
         Image(
             painter = painterResource(R.drawable.ic_close_24),
@@ -127,7 +150,7 @@ fun LazyListItemData(item: String) {
 }
 
 @Composable
-fun SecondScreenForNavigation() {
+fun SecondScreenForNavigation(navController: NavHostController) {
 }
 
 @Composable
