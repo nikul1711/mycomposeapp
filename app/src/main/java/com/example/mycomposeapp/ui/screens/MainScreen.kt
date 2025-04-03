@@ -38,7 +38,7 @@ fun MainScreen(navController: NavController) {
         items(listColumns) { item ->
             LazyListItemData(item, onClick = {
                 // Call navigate on the NavController when item is clicked
-                navController.navigate("details")
+                navController.navigate("details?data=$it")
             })
         }
     }

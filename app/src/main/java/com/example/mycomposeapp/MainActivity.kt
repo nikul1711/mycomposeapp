@@ -1,14 +1,17 @@
 package com.example.mycomposeapp
 
+import android.R.attr.type
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.mycomposeapp.ui.screens.DetailsScreen
 import com.example.mycomposeapp.ui.screens.MainScreen
 import com.example.mycomposeapp.theme.MyComposeAppTheme
@@ -40,8 +43,14 @@ fun MyApp() {
         composable("main") {
             MainScreen(navController)
         }
-        composable("details") {
-            DetailsScreen(navController)
+        composable("details?data={data}", arguments = listOf(navArgument("data") {
+            type = NavType.StringType
+            defaultValue = null
+            nullable = true
+        })) {
+            val data = it.arguments?.getString("data")
+//            val data=null
+            DetailsScreen(navController, data)
         }
     }
 }
